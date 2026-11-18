@@ -1,0 +1,12 @@
+# Pipeline Python du Defi 2 (equipe Burkina_Novation) : pip install -r requirements.txt
+# Python 3.12 ou plus. La plateforme React + NestJS a ses propres dependances (plateforme/web et plateforme/api, npm install).
+
+pandas==3.1.1             # tables, nettoyage, indicateurs
+numpy==2.5.4              # calculs
+scipy==1.18.1             # correlations de Spearman (liens)
+scikit-learn==1.9.1       # k-moyennes et silhouette (profils de provinces)
+openpyxl==3.1.5           # lecture des classeurs Excel DGESS
+pypdf==7.1.0              # lecture des annuaires et projections INSD en PDF
+matplotlib==3.11.2        # figures PNG
+reportlab==5.1.0          # fiches PDF
+python-docx==1.2.0        # dossier technique Word

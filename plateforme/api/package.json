@@ -1,0 +1,23 @@
+{
+  "name": "burkina-novation-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API NestJS du Defi 2 : sert les donnees agregees produites par le pipeline Python (aucune donnee brute).",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "test": "node dist/main.js --test"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.0",
+    "@nestjs/core": "^11.1.0",
+    "@nestjs/platform-express": "^11.1.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

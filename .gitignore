@@ -1,0 +1,43 @@
+# Depot Git du projet Defi 2 (equipe Burkina_Novation) : uniquement le code.
+# Les donnees se reconstruisent avec : powershell -ExecutionPolicy Bypass -File scripts\lancer_pipeline.ps1
+
+# Donnees brutes (Data Pack) et donnees produites par le pipeline
+donnees_brutes/
+01_collecte/
+02_nettoyage/
+03_transformation/
+04_analyse/
+05_interpretation/
+architecture/
+
+# Paquets de depot (generes par scripts/depot_final.py et scripts/organiser_depot.py)
+A_DEPOSER/
+depot_final/
+depot_plateforme/
+
+# Profils de structure des fichiers bruts (fichiers de travail locaux)
+profil_*.txt
+
+# Plateforme React + NestJS : dependances et compilations
+node_modules/
+plateforme/web/dist/
+plateforme/web/dist-autonome/
+plateforme/api/dist/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.venv/
+
+# Outils et systeme
+.playwright-mcp/
+.claude/
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+~$*
+*.tmp
