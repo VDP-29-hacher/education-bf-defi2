@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useApp } from './contexte';
 import Sidebar from './Sidebar';
+import { ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { Icone } from './icones';
 import Accueil from './pages/Accueil';
 import Analyse from './pages/Analyse';
@@ -63,6 +64,10 @@ export default function App() {
     <div className={`app ${ouvert ? 'menu-ouvert' : ''} ${compact ? 'compact' : ''}`}>
       <a className="saut" href="#contenu">Aller au contenu</a>
       <Sidebar ouvert={ouvert} fermer={() => setOuvert(false)} compact={compact} basculerCompact={basculerCompact} partager={partager} />
+      <button type="button" className="poignee" onClick={basculerCompact} aria-label={compact ? 'Agrandir la barre latérale' : 'Réduire la barre latérale'}
+        aria-expanded={!compact} data-infobulle={compact ? 'Agrandir le menu' : 'Réduire le menu'}>
+        {compact ? <ChevronsRight size={16} strokeWidth={2.4} /> : <ChevronsLeft size={16} strokeWidth={2.4} />}
+      </button>
       <div className="voile" onClick={() => setOuvert(false)} aria-hidden="true" />
       <div className="principal">
         <header className="barre">

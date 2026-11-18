@@ -632,7 +632,8 @@ def main(argv=None) -> int:
         "les sommer deux fois : filtrer agregat = detail) ; taux et IPS non sommables ; valeurs manquantes jamais remplacees\n"
         "par 0 ; texte adresse aux assistants automatiques retire des cellules et signale.\n"
         "Limites : milieu urbain/rural disponible seulement au niveau national dans cette base ; une annee numerique AAAA en\n"
-        "en-tete est lue comme l'annee scolaire AAAA-AAAA+1 (a confirmer dans Excel).\n", encoding="utf-8")
+        + ("en-tete est une annee de FIN : 2025 = annee scolaire 2024-2025 (option --annee-numerique fin, verifiee contre l'annuaire 2024-2025).\n"
+           if ANNEE_NUM_MODE == "fin" else "en-tete est lue comme l'annee scolaire AAAA-AAAA+1 (convention 'debut', a confirmer dans Excel).\n"), encoding="utf-8")
 
     n_hors_detail = int((final.agregat != "detail").sum())
     print(f"\n{len(final)} lignes ({len(final) - n_hors_detail} de detail, {n_hors_detail} sous-totaux/totaux) -> {sortie}")

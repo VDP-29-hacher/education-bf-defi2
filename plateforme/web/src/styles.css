@@ -479,3 +479,21 @@ table.classement{font-size:.875rem}table.classement td,table.classement th{paddi
 .barre-droite [data-infobulle]:is(:hover,:focus-visible)::after{transform:translate(0,0)}
 html,body{overflow-x:clip}
 .deroulant-interieur{padding-top:0;transition:padding-top var(--sb-duree) var(--sb-courbe)}.deroulant.ouvert .deroulant-interieur{padding-top:4px}
+
+/* poignee d'ajustement de la barre laterale : accrochee a son bord droit, toujours visible (surtout en mode reduit) */
+.poignee{position:fixed;z-index:45;top:30px;left:calc(var(--menu) - 15px);width:30px;height:30px;border-radius:999px;display:grid;place-items:center;cursor:pointer;
+  background:#fff;color:var(--sb-bleu);border:1px solid rgba(16,43,82,.18);box-shadow:0 4px 12px rgba(16,43,82,.22);
+  transition:left var(--sb-duree) var(--sb-courbe),transform .2s var(--sb-courbe),background .2s var(--sb-courbe),color .2s var(--sb-courbe)}
+.poignee:is(:hover,:focus-visible){background:var(--sb-jaune);color:var(--sb-bleu);transform:scale(1.1)}
+.app.compact .poignee{left:calc(var(--menu-compact) - 15px);background:var(--sb-jaune);border-color:transparent;animation:poignee-appel 2.4s var(--sb-courbe) 1}
+.poignee[data-infobulle]::after{left:calc(100% + 10px);top:50%;transform:translate(-4px,-50%)}
+.poignee[data-infobulle]:is(:hover,:focus-visible)::after{transform:translate(0,-50%)}
+:root[data-theme="sombre"] .poignee{background:#1b2630;color:#e6edf3;border-color:#33414d}
+:root[data-theme="sombre"] .app.compact .poignee{background:var(--sb-jaune);color:var(--sb-bleu)}
+@keyframes poignee-appel{0%,100%{box-shadow:0 4px 12px rgba(16,43,82,.22)}50%{box-shadow:0 0 0 7px rgba(245,181,27,.3),0 4px 12px rgba(16,43,82,.22)}}
+@media(max-width:767px){.poignee{display:none}}
+@media (prefers-reduced-motion:reduce){.poignee{transition:none;animation:none}}
+@media print{.poignee{display:none}}
+
+/* le defilement de la barre laterale ne se propage jamais a la page */
+.menu{overscroll-behavior:contain}

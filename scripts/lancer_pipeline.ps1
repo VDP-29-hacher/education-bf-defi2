@@ -24,6 +24,7 @@
     analyse_acces    04_analyse         TBS/TBA/TAP par region et par sexe, provinces prioritaires, LISEZ-MOI de l'etape 4
     prevision        04_analyse         role scientist : projection de l'IPS par province, validation sur le passe
     dashboard        04_analyse         tableau de bord interactif (acces, parite, provinces, priorites) integre au zip
+    lisez_moi        racine             LISEZ-MOI.md : les 7 parties du plan de documentation et les criteres du jury, chiffres recalcules
     plateforme       04_analyse         interface React compilee (page autonome) + API NestJS (plateforme/), si Node.js est installe
     interpretation   05_interpretation  fiche de synthese nationale (page 1) + une fiche par region actuelle (pages 2 a 18)
     documentation    05_interpretation  dossier technique complet (.docx) genere depuis les tables
@@ -60,7 +61,7 @@ $c01 = Join-Path $racine "01_collecte"
 $c02 = Join-Path $racine "02_nettoyage"
 $c03 = Join-Path $racine "03_transformation"
 $refTable = Join-Path $scripts "reference\ancien_decoupage_13_a_valider.csv"
-$ordre = @("collecte", "annoter", "nettoyage", "verification", "provinces", "population_profil", "population_insd", "transformation", "validation", "liaison_communes", "liaison_officielle", "modele_commun", "analyse", "analyse_provinces", "analyse_regions17", "analyse_population", "liens_groupes", "analyse_acces", "prevision", "dashboard", "plateforme", "interpretation", "documentation", "architecture", "depot")
+$ordre = @("collecte", "annoter", "nettoyage", "verification", "provinces", "population_profil", "population_insd", "transformation", "validation", "liaison_communes", "liaison_officielle", "modele_commun", "analyse", "analyse_provinces", "analyse_regions17", "analyse_population", "liens_groupes", "analyse_acces", "prevision", "dashboard", "plateforme", "interpretation", "documentation", "architecture", "lisez_moi", "depot")
 $c04 = Join-Path $racine "04_analyse"
 $c05 = Join-Path $racine "05_interpretation"
 $Etapes = @($Etapes | ForEach-Object { $_ -split "[,;]" } | Where-Object { $_ })   # accepte "a,b,c" meme avec powershell -File
@@ -211,6 +212,10 @@ foreach ($e in $ordre) {
         "architecture" {
             Lancer "architecture (livrable Architect) -> architecture/ : schema du pipeline, modele de donnees, decisions" @(
                 "$scripts\architecture_template.py", $c03, (Join-Path $racine "architecture"), "--equipe", $Equipe)
+        }
+        "lisez_moi" {
+            Lancer "LISEZ-MOI general (plan de la documentation + criteres du jury) -> LISEZ-MOI.md a la racine" @(
+                "$scripts\lisez_moi.py", "--equipe", $Equipe)
         }
         "depot" {
             Lancer "paquets de depot (donnees, code, documentation) + controle avant depot" @("$scripts\depot_final.py", "preparer", "--equipe", $Equipe)

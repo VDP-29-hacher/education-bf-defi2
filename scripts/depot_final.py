@@ -139,6 +139,12 @@ def preparer(racine: Path, eq: str, defi: str, role: str) -> int:
     membres02 = [(f, f.name) for pat in ("*_journal-nettoyage_v1.csv", "*_anomalies_v1.csv",
                                           "*_verification-total-annuaire-*-20??-20??_v1.csv") for f in sorted(c02.glob(pat))]
     lm02 = (c02 / "LISEZ-MOI.txt").read_text(encoding="utf-8") if (c02 / "LISEZ-MOI.txt").exists() else ""
+    with open(longue, encoding="utf-8-sig", newline="") as fh:   # convention reellement appliquee (colonne de la table propre)
+        lig = csv.DictReader(fh, delimiter=";")
+        conv = (next(lig, None) or {}).get("annee_numerique_convention", "")
+    if conv == "fin":
+        lm02 = lm02.replace("en-tete est lue comme l'annee scolaire AAAA-AAAA+1 (a confirmer dans Excel).",
+                            "en-tete est une annee de FIN : 2025 = annee scolaire 2024-2025 (option --annee-numerique fin, verifiee contre l'annuaire 2024-2025).")
     lm02 += ("\nVerifications des totaux : les totaux nationaux de la base sont cherches dans les annuaires 2024-2025 (prescolaire "
              "et primaire) et 2017-2018 (primaire). Prescolaire : 10 annees sur 10 retrouvees. Primaire : annee 2017-2018 non "
              "retrouvee dans les annuaires (a verifier).\nFormat : separateur ';', UTF-8, decimales au POINT.\n")
@@ -250,6 +256,9 @@ def preparer(racine: Path, eq: str, defi: str, role: str) -> int:
               "aucune donnee brute n'est envoyee a une IA (voir la note 6 du LISEZ-MOI de la collecte).\n"
               "Convention des annees : annee scolaire AAAA-AAAA ; une annee numerique seule du classeur DGESS est une annee de FIN\n"
               "(2025 = 2024-2025), confirmee par comparaison avec l'annuaire 2024-2025 (option --annee-numerique fin).\n")
+    lm_general = racine / "LISEZ-MOI.md"                  # LISEZ-MOI general (scripts/lisez_moi.py)
+    if lm_general.exists():
+        membres.append((lm_general, "LISEZ-MOI.md"))
     faire_zip(cod / p("03-transformation", "code-pipeline", "zip"), membres, {"README_RELANCER.txt": readme, "requirements.txt": reqs})
 
     # ---- manifeste ----

@@ -57,6 +57,21 @@ export default function Sidebar({ ouvert, fermer, compact, basculerCompact, part
   const { e, maj, basculerTheme, theme } = useApp();
   const [outils, setOutils] = useState(() => lire('outils-ouvert', true));
   const nav = useRef<HTMLElement>(null);
+  const barre = useRef<HTMLElement>(null);
+  useEffect(() => {                        // la molette ne fait defiler que la barre laterale, jamais la page derriere
+    const el = barre.current; if (!el) return;
+    const molette = (ev: WheelEvent) => {
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      if ((ev.deltaY < 0 && scrollTop <= 0) || (ev.deltaY > 0 && scrollTop + clientHeight >= scrollHeight - 1)) ev.preventDefault();
+    };
+    el.addEventListener('wheel', molette, { passive: false });
+    return () => el.removeEventListener('wheel', molette);
+  }, []);
+  useEffect(() => {                        // telephone : page bloquee tant que le menu coulissant est ouvert
+    if (!ouvert || window.innerWidth >= 768) return;
+    const avant = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = avant; };
+  }, [ouvert]);
   const basculerOutils = () => setOutils((v) => { ecrire('outils-ouvert', !v); return !v; });
   const aller = (o: Onglet) => { maj({ o }); fermer(); };
   const clavier = (ev: KeyboardEvent) => {
@@ -68,7 +83,7 @@ export default function Sidebar({ ouvert, fermer, compact, basculerCompact, part
     (nav.current?.querySelectorAll('[role=tab]')[j] as HTMLButtonElement | undefined)?.focus();
   };
   return (
-    <aside className="menu" aria-label="Menu principal">
+    <aside className="menu" aria-label="Menu principal" ref={barre}>
       <div className="menu-tete">
         <span className="logo-large"><LogoComplet /></span>
         <span className="logo-compact"><Symbole taille={42} /></span>
