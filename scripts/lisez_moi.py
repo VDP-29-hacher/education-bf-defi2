@@ -3,7 +3,7 @@
 
 Tous les chiffres sont lus dans les sorties du pipeline (aucune saisie a la main) : le document reste juste a chaque relance.
 Entrees : 01_collecte/*registre-sources_v1.csv ; 04_analyse/*_donnees-plateforme_v1.json et tables de l'etape 4.
-Sortie  : LISEZ-MOI.md a la racine du projet (repris dans le zip du code depose).
+Sortie  : LISEZ-MOI.md et README.md (meme contenu, affiche par GitHub) a la racine ; LISEZ-MOI.md est repris dans le zip du code depose.
 Usage   : lisez_moi.py [--racine DOSSIER] [--equipe Burkina_Novation]
 """
 import argparse, csv, glob, json, os, sys
@@ -255,8 +255,10 @@ def main():
       "dossier de 15 pages ; ce document régénéré à chaque relance | `scripts/` ; `A_DEPOSER/GUIDE_DE_DEPOT.txt` ; ce LISEZ-MOI |")
     w("")
     out = os.path.join(R, "LISEZ-MOI.md")
-    open(out, "w", encoding="utf-8").write("\n".join(L) + "\n")
-    print(f"LISEZ-MOI general : {out} ({len(L)} lignes, 7 parties + criteres du jury)")
+    texte = "\n".join(L) + "\n"
+    open(out, "w", encoding="utf-8").write(texte)
+    open(os.path.join(R, "README.md"), "w", encoding="utf-8").write(texte)   # meme contenu, affiche sur la page du depot GitHub
+    print(f"LISEZ-MOI general : {out} et README.md ({len(L)} lignes, 7 parties + criteres du jury)")
 
 
 if __name__ == "__main__":
