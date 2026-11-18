@@ -259,7 +259,16 @@ def preparer(racine: Path, eq: str, defi: str, role: str) -> int:
     lm_general = racine / "LISEZ-MOI.md"                  # LISEZ-MOI general (scripts/lisez_moi.py)
     if lm_general.exists():
         membres.append((lm_general, "LISEZ-MOI.md"))
+    if (racine / "LISEZ-MOI.pdf").exists():
+        membres.append((racine / "LISEZ-MOI.pdf", "LISEZ-MOI.pdf"))
     faire_zip(cod / p("03-transformation", "code-pipeline", "zip"), membres, {"README_RELANCER.txt": readme, "requirements.txt": reqs})
+
+    # ---- LISEZ-MOI d'etape en PDF (scripts/lisez_moi_pdf.py) : remplacent les versions texte, meme nombre de fichiers ----
+    for f in sorted((racine / "05_interpretation" / "lisez-moi").glob(f"{eq}_0?-*_lisez-moi_v1.pdf")):
+        txt = doc / (f.stem + ".txt")
+        if txt.exists():
+            txt.unlink()
+        copier(f, doc / f.name)
 
     # ---- manifeste ----
     lignes = []
